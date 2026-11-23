@@ -1,46 +1,50 @@
 # 微信读书双书单
 
-根据最近 30 天的读书讨论，挑出微信读书能打开的版本。一份从你笔记里的问题出发，另一份留给平常想不到要搜的书。
+**看推荐无需微信读书账号。** 开放书单挑最近 30 天真正有人讨论的书。个性化书单可以从你眼下的一个问题出发，也可以参考你选定的笔记。每本都有推荐理由和讨论原文，能核实微信读书版本时附上阅读链接。
 
-**先翻[第一期双书单](examples/issue-001.md)**。示例读者午休只有二十分钟，却总把时间花在挑书上。个性化榜给了他《四周》里一段谈阅读清单的作者访谈，和一部几个午休能读完的《老人与海》。同一期的开放榜里，一位书评作者从“谁该对造物负责”重读《弗兰肯斯坦》。四本书都有讨论原文和微信读书链接。[示例读者的两段笔记](examples/notes/reading.md)
+[翻开第一期双书单](examples/issue-001.md)。示例读者午休只有二十分钟，却常把时间花在挑书上。个性化榜推荐《四周》和《老人与海》，开放榜选出《第二十二条军规》和《弗兰肯斯坦》。[示例笔记](examples/notes/reading.md)
 
-## 让它给你选书
+## 怎么用
 
-在能联网的 Codex 中调用。把引号里的目录换成你自己的笔记目录。普通 Markdown 或 Obsidian 都行，只有正文的笔记也能用。
+在 Codex 中任选一种说法。
 
-> 用 $last30days-weread，参考「我的阅读笔记」目录，给我最近 30 天的两份微信读书书单，每份 3 本。告诉我每本书为什么值得读，附上原始讨论和微信读书链接。
+| 想看什么 | 可以这样说 |
+| --- | --- |
+| 开放书单 | 用 $last30days-weread，从最近一个月的跨平台讨论中挑 5 本书。 |
+| 按问题选书 | 我常把午休花在挑书上。用 $last30days-weread 给我一份个性化书单。 |
+| 参考笔记 | 用 $last30days-weread，参考我指定的「阅读笔记」目录，给我两份书单，各 3 本。 |
 
-也可以给它一个更具体的问题，比如“会议常常打断整块时间，有哪些书真正讲清楚了这个问题？”开放榜仍然独立挑书。默认每份五本，有据可查的版本少时就少选。
+开放推荐只使用公开材料。按问题选书也无需提供笔记。选择笔记推荐时，只有你指定的目录供当前 AI 客户端读取。公开搜索使用概括后的主题。预览不会访问微信读书账号、读取书架或要求扫码。链接待核实时仍会展示书名、理由和讨论来源。
 
-## 安装
+## 安装与试读
 
-需要支持技能的 Codex 和 Python 3.9 或更高版本。以下命令使用 Node.js 提供的 `npx`，把四个技能安装给当前用户。已经安装的依赖可以跳过。
+在支持技能的 Codex 中使用。推荐功能需要本技能和研究技能 `last30days`。如果使用 Node.js，可以用以下命令安装；也可以让 Codex 从对应 GitHub 仓库安装。
 
 ```sh
 npx skills add mvanhorn/last30days-skill --skill last30days -a codex -g
-npx skills add Tencent/WeChatReading --skill weread-skills -a codex -g
-npx skills add obsidianmd/obsidian-skills --skill obsidian-markdown -a codex -g
 npx skills add sphinxbz-hash/last30days-weread --skill last30days-weread -a codex -g
 ```
 
-也可以让 Codex 从这四个 GitHub 仓库安装对应技能。安装后新开一个对话。按研究技能的首次设置选择可用来源。[last30days](https://github.com/mvanhorn/last30days-skill) · [微信读书官方技能](https://github.com/Tencent/WeChatReading) · [Obsidian 官方技能](https://github.com/obsidianmd/obsidian-skills)
+新开对话后开始选书。解析 Obsidian 双向链接时可加装 `obsidian-markdown`。只有选择保存到微信读书时才需要配置 `weread-skills` 和个人密钥。[研究技能](https://github.com/mvanhorn/last30days-skill) · [Obsidian 技能](https://github.com/obsidianmd/obsidian-skills) · [微信读书官方技能](https://github.com/Tencent/WeChatReading)
 
-在微信读书的官方页面领取个人密钥，保存为运行 Codex 的环境变量 `WEREAD_API_KEY`。它用于核对电子书版本。笔记路径可以每次在请求中指定，也可以设置 `WEREAD_VAULT`。个人笔记保留在本机，查找讨论时只提交概括后的主题。请只选择愿意让当前 AI 客户端读取的笔记目录。[领取微信读书密钥](https://weread.qq.com/r/weread-skills)
-
-## 复跑首期样例
-
-[首期样单](examples/issue-001.md) 可以直接阅读。装好微信读书依赖并配置密钥后，在本仓库目录运行下列命令。它会用原始候选数据重新查询四个版本、检查笔记引用，输出 Markdown。固定窗口是 2026-10-25 至 2026-11-23。
+仓库里的首期数据已附核实过的公开链接。用 Python 3.9 或以上版本可以离线复现，无需安装依赖或配置密钥。第一行只看开放榜，第二行用仓库自带的示例笔记生成两榜。
 
 ```sh
+python -X utf8 scripts/booklists.py preview examples/issue-001.json --list open
 python -X utf8 scripts/booklists.py preview examples/issue-001.json --vault examples/notes
 ```
 
-日常使用只需告诉 Codex 你的问题。样例 JSON 用于复现一期结果。
+## 看完再决定是否保存
 
-## 同步到微信读书（实验功能）
+回复 **“存到我的微信读书”** 后，选哪张书单、哪几本，以及怎么存。也可以直接说“只把开放榜里的《第二十二条军规》加入书架”。到这一步才处理微信读书登录和账号核对。
 
-默认只返回推荐。明确说“把这两份书单加入我的微信读书”后，Codex 才会尝试使用已登录、有个人书单编辑入口的官方界面。当前已验证书目查询、笔记引用和书架读取。创建个人书单及之后的重复运行仍待在真实账号完整验证。登录、可用界面和地区书目可能因账号而异。[同步步骤与核验方式](references/sync.md)
+| 保存方式 | 会发生什么 |
+| --- | --- |
+| 仅加入书架 | 在已登录的官方界面添加所选版本，已在架的跳过。已用四本书实测，并连续两次回读确认无缺项。 |
+| 创建个人书单（实验） | 在支持编辑个人书单的界面创建或补充所选书单。已测试的网页版和电脑小程序未找到建单入口，遇到这种情况会停下，保留推荐。只有另选“加入书架”才会改动书架。 |
+
+个人书单的创建、回读及重复运行仍待完整实测。“开放”指推荐来源；公开发布书单是单独的选择。[保存步骤](references/sync.md)
 
 ## 许可
 
-本仓库的代码和文档使用 [MIT 许可证](LICENSE)。三个上游技能分别安装，遵循各自仓库的许可。
+本仓库采用 [MIT 许可证](LICENSE)。上游技能分别安装，遵循各自仓库的许可。

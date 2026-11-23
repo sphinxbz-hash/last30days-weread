@@ -20,7 +20,6 @@
 
 [Reddit r/books · 11 月 9 日周帖 · 2026-11-09](https://www.reddit.com/r/books/comments/1xrosyr/what_books_did_you_start_or_finish_reading_this/) · [微信读书](https://weread.qq.com/web/reader/46532e00813abaca4g010be6)
 
-
 ## last30days开放书单
 
 ### 《第二十二条军规》 · 约瑟夫·海勒
@@ -34,3 +33,5 @@
 在 11 月 1 日的读后感里，Pattimouse 写到，最让她同情造物的是它来到世上就被遗弃，连一个教它与人相处的人都没有。带着这个问题读原著：维克多完成实验后的第一个决定，让谁承担了代价？
 
 [Pattimouse · Sunday Reviews · 2026-11-01](https://pattimouse.blog/2026/11/01/sunday-reviews-43/) · [微信读书](https://weread.qq.com/web/reader/08e329f07210612808e4a56)
+
+可选：回复「存到我的微信读书」，再选书目及保存方式。
