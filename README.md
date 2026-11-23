@@ -1,6 +1,6 @@
 # 微信读书双书单
 
-**看推荐无需微信读书账号。** 开放书单挑最近 30 天真正有人讨论的书。个性化书单可以从你眼下的一个问题出发，也可以参考你选定的笔记。每本都有推荐理由和讨论原文，能核实微信读书版本时附上阅读链接。
+**看推荐无需登录。** 开放书单挑最近 30 天真正有人讨论的书。个性化书单可以从你眼下的一个问题出发，也可以参考你选定的笔记。每本都附推荐理由、讨论原文和「在 Z-Library 搜索」。核实微信读书版本后，一并附上阅读链接。
 
 [翻开第一期双书单](examples/issue-001.md)。示例读者午休只有二十分钟，却常把时间花在挑书上。个性化榜推荐《四周》和《老人与海》，开放榜选出《第二十二条军规》和《弗兰肯斯坦》。[示例笔记](examples/notes/reading.md)
 
@@ -33,6 +33,18 @@ npx skills add sphinxbz-hash/last30days-weread --skill last30days-weread -a code
 python -X utf8 scripts/booklists.py preview examples/issue-001.json --list open
 python -X utf8 scripts/booklists.py preview examples/issue-001.json --vault examples/notes
 ```
+
+## 微信读书和 Z-Library
+
+「在 Z-Library 搜索」使用书名和作者。例如《赎罪》会搜“赎罪 伊恩·麦克尤恩”，以便和凑佳苗的同名小说区分。链接在本地生成；点击后，浏览器才会把搜索词交给目标网站。能否打开结果页取决于该站点及读者的网络。可以用 `preview --help` 查看支持的站点，再通过 `--zlibrary-host` 选择自己的常用入口。
+
+如果已经在本机连接 [heartleo/zlib](https://github.com/heartleo/zlib)，可以说“用我已连接的 Z-Library 核对开放书单的版本”。使用命令行时运行：
+
+```sh
+python -X utf8 scripts/booklists.py preview examples/issue-001.json --list open --match-zlibrary
+```
+
+该选项只运行书目搜索，优先按已核实的 ISBN 查询。ISBN 相符，或完整书名、作者和明确标出的译者相符且版本信息无冲突时，显示「Z-Library 同版书目」。目录缺字段、候选有歧义或客户端未连接时，保留普通搜索链接。个人笔记、推荐理由和微信读书账号信息不会作为查询参数。搜索入口和同版书目均指向网页。
 
 ## 看完再决定是否保存
 

@@ -3,6 +3,9 @@
   "personal": [
     {
       "bookId": "3300202632",
+      "isbn": "9787572627910",
+      "translator": "吴晓真",
+      "publisher": "湖南文艺出版社",
       "readerLink": "https://weread.qq.com/web/reader/5f032370813abb5a7g01233e",
       "title": "四周（28天告别精神内耗）",
       "author": "[英]奥利弗·伯克曼",
@@ -20,6 +23,7 @@
     },
     {
       "bookId": "3300179560",
+      "translator": "孙致礼",
       "readerLink": "https://weread.qq.com/web/reader/46532e00813abaca4g010be6",
       "title": "老人与海",
       "author": "[美]欧内斯特·海明威",
@@ -39,6 +43,9 @@
   "open": [
     {
       "bookId": "801458",
+      "isbn": "9787544726696",
+      "translator": "吴冰青",
+      "publisher": "译林出版社",
       "readerLink": "https://weread.qq.com/web/reader/33932d505c3ab233954cfb2",
       "title": "第二十二条军规",
       "author": "约瑟夫·海勒",
@@ -53,6 +60,9 @@
     },
     {
       "bookId": "34627880",
+      "isbn": "9787532784110",
+      "translator": "刘新民",
+      "publisher": "上海译文出版社",
       "readerLink": "https://weread.qq.com/web/reader/08e329f07210612808e4a56",
       "title": "弗兰肯斯坦（译文经典）",
       "author": "玛丽·雪莱",

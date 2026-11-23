@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import re
+import sys
 import tempfile
 import unicodedata
 import uuid
@@ -12,6 +13,8 @@ from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import parse_qs, urlsplit
 from urllib.request import Request, urlopen
+
+import zlibrary_links
 
 NAMES = {"personal": "last30days个性化书单", "open": "last30days开放书单"}
 SKILLS = Path(__file__).resolve().parents[2]
@@ -150,6 +153,9 @@ def preview_selection(draft, vault=None, group=None):
             require(identity not in seen, f"{NAMES[key]}出现重复书目")
             seen.add(identity)
             result.update(bookId=bid, link=official_link(row), evidence=checked_evidence(row["evidence"], end))
+            for field in ("isbn", "translator", "publisher"):
+                if isinstance(row.get(field), str) and row[field].strip():
+                    result[field] = row[field].strip()
             if key == "personal":
                 if vault is not None and row.get("note"):
                     result["note"] = local_note(vault, row["note"])
@@ -161,7 +167,7 @@ def preview_selection(draft, vault=None, group=None):
     return {"as_of": end.isoformat(), **lists}
 
 
-def render_preview(selection):
+def render_preview(selection, zlibrary_host=zlibrary_links.DEFAULT_HOST):
     end = date.fromisoformat(selection["as_of"])
     groups = [key for key in NAMES if key in selection]
     title = NAMES[groups[0]] if len(groups) == 1 else "微信读书双书单"
@@ -179,6 +185,11 @@ def render_preview(selection):
                 lines.extend([f"笔记依据：{where}", ""])
             links = [f"[{item['voice']} · {item['date']}]({item['url']})" for item in book["evidence"]]
             links.append(f"[微信读书]({book['link']})" if book["link"] else "微信读书版本待核实")
+            edition = book.get("zlibrary_edition")
+            if edition:
+                links.append(f"[Z-Library 同版书目]({edition})")
+            else:
+                links.append(f"[在 Z-Library 搜索]({zlibrary_links.search_link(book, zlibrary_host)})")
             lines.extend([" · ".join(links), ""])
     lines.append("可选：回复「存到我的微信读书」，再选书目及保存方式。")
     return "\n".join(lines).rstrip() + "\n"
@@ -350,6 +361,9 @@ def main():
     preview.add_argument("draft", type=Path)
     preview.add_argument("--vault", type=Path, help="仅在明确指定笔记目录时使用")
     preview.add_argument("--list", choices=NAMES, dest="group", help="只显示指定榜单")
+    preview.add_argument("--match-zlibrary", action="store_true", help="用已登录的本机 zlib 查询当前书单的同版书目")
+    preview.add_argument("--zlibrary-host", choices=zlibrary_links.HOSTS, default=zlibrary_links.DEFAULT_HOST,
+                         help="为搜索链接选用自己常用的 Z-Library 站点")
     start = commands.add_parser("prepare", help="按用户选定的书目和保存方式准备计划")
     start.add_argument("draft", type=Path)
     start.add_argument("--mode", choices=("shelf", "booklist"), required=True)
@@ -363,7 +377,13 @@ def main():
         if args.action == "search":
             result = search(args.title, args.context)
         elif args.action == "preview":
-            print(render_preview(preview_selection(load(args.draft), args.vault, args.group)), end="")
+            selection = preview_selection(load(args.draft), args.vault, args.group)
+            if args.match_zlibrary:
+                books = (book for key in NAMES for book in selection.get(key, []))
+                message = zlibrary_links.lookup_editions(books)
+                if message:
+                    print(message, file=sys.stderr)
+            print(render_preview(selection, args.zlibrary_host), end="")
             return
         elif args.action == "prepare":
             result = prepare(args)

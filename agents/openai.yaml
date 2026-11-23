@@ -1,4 +1,4 @@
 interface:
   display_name: "微信读书双书单"
-  short_description: "看近三十天的开放或个性化推荐，再决定是否保存到微信读书"
-  default_prompt: "用 $last30days-weread 给我近 30 天的开放书单，附上推荐理由、讨论原文和核实过的微信读书链接。"
+  short_description: "看近三十天的开放或个性化书单，附微信读书和 Z-Library 入口"
+  default_prompt: "用 $last30days-weread 给我近 30 天的开放书单，附推荐理由、讨论原文、微信读书链接和 Z-Library 搜索入口。"
