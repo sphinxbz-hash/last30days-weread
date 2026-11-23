@@ -1,0 +1,4 @@
+interface:
+  display_name: "微信读书双书单"
+  short_description: "从你的 Markdown 笔记和近三十天的读书讨论中挑选微信读书上的书"
+  default_prompt: "用 $last30days-weread 给我两份微信读书推荐，每本附讨论原文和阅读链接。"

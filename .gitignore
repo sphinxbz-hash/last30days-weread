@@ -1,0 +1,19 @@
+# Private inputs and per-account runs
+.env
+.env.*
+outputs/
+private/
+vault/
+draft.json
+plan.json
+observed.json
+.booklists-*.tmp
+
+# Local Python and editor files
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.obsidian/
+.DS_Store
+Thumbs.db
