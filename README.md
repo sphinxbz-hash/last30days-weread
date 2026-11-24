@@ -18,14 +18,17 @@
 
 ## 安装与试读
 
-在支持技能的 Codex 中使用。推荐功能需要本技能和研究技能 `last30days`。如果使用 Node.js，可以用以下命令安装；也可以让 Codex 从对应 GitHub 仓库安装。
+**只需安装 `last30days-weread`。** 跨平台研究引擎、各研究模式的指南、书单预览和公开示例都在同一个包里。
+
+在 Kimi 中发送「请从 https://github.com/sphinxbz-hash/last30days-weread 安装 last30days-weread 技能」。安装后输入 `/` 选择它，试一句「给我两份书单，各 3 本。开放榜看最近 30 天的讨论，个性化榜只参考技能自带的 examples/notes/reading.md」。Kimi Work 也可导入发布页的技能 ZIP。[Kimi 官方安装说明](https://www.kimi.com/features/skills)
+
+在 Codex 中可以从同一仓库安装，也可以运行：
 
 ```sh
-npx skills add mvanhorn/last30days-skill --skill last30days -a codex -g
 npx skills add sphinxbz-hash/last30days-weread --skill last30days-weread -a codex -g
 ```
 
-新开对话后开始选书。解析 Obsidian 双向链接时可加装 `obsidian-markdown`。只有选择保存到微信读书时才需要配置 `weread-skills` 和个人密钥。[研究技能](https://github.com/mvanhorn/last30days-skill) · [Obsidian 技能](https://github.com/obsidianmd/obsidian-skills) · [微信读书官方技能](https://github.com/Tencent/WeChatReading)
+实时研究需要客户端能运行 Python 3.12 或以上版本并能联网。公开来源可以先用，各平台覆盖取决于网络和已配置的服务。也可以直接说「研究最近 30 天人们怎么评价某个工具」，或在技能根目录运行 `python -X utf8 research/scripts/last30days.py --help` 查看研究命令。需要保存到微信读书时，再配置 [微信读书官方技能](https://github.com/Tencent/WeChatReading) 和个人密钥。
 
 仓库里的首期数据已附核实过的公开链接。用 Python 3.9 或以上版本可以离线复现，无需安装依赖或配置密钥。第一行只看开放榜，第二行用仓库自带的示例笔记生成两榜。
 
@@ -59,4 +62,4 @@ python -X utf8 scripts/booklists.py preview examples/issue-001.json --list open 
 
 ## 许可
 
-本仓库采用 [MIT 许可证](LICENSE)。上游技能分别安装，遵循各自仓库的许可。
+本项目采用 [MIT 许可证](LICENSE)。内置研究引擎来自 [last30days v4.6.0](https://github.com/mvanhorn/last30days-skill/tree/64b1f006f800640022ce07f51de5ce56aad34b76)，保留[上游许可](research/LICENSE)和[所含组件许可](research/scripts/lib/vendor/bird-search/LICENSE)。版本和集成改动见[来源说明](research/ORIGIN.md)。
